@@ -1,0 +1,583 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		637C70FC25D31F6D00AB8D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C70FB25D31F6D00AB8D29 /* AppDelegate.swift */; };
+		637C70FE25D31F6E00AB8D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 637C70FD25D31F6E00AB8D29 /* Assets.xcassets */; };
+		637C710125D31F6E00AB8D29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637C70FF25D31F6E00AB8D29 /* MainMenu.xib */; };
+		637C710D25D31F6E00AB8D29 /* jdeNESTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C710C25D31F6E00AB8D29 /* jdeNESTests.swift */; };
+		637C711825D31F6E00AB8D29 /* jdeNESUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C711725D31F6E00AB8D29 /* jdeNESUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		637C710925D31F6E00AB8D29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 637C70F025D31F6D00AB8D29 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 637C70F725D31F6D00AB8D29;
+			remoteInfo = jdeNES;
+		};
+		637C711425D31F6E00AB8D29 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 637C70F025D31F6D00AB8D29 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 637C70F725D31F6D00AB8D29;
+			remoteInfo = jdeNES;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		637C70F825D31F6D00AB8D29 /* jdeNES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jdeNES.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		637C70FB25D31F6D00AB8D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		637C70FD25D31F6E00AB8D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		637C710025D31F6E00AB8D29 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		637C710225D31F6E00AB8D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		637C710325D31F6E00AB8D29 /* jdeNES.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = jdeNES.entitlements; sourceTree = "<group>"; };
+		637C710825D31F6E00AB8D29 /* jdeNESTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = jdeNESTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		637C710C25D31F6E00AB8D29 /* jdeNESTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jdeNESTests.swift; sourceTree = "<group>"; };
+		637C710E25D31F6E00AB8D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		637C711325D31F6E00AB8D29 /* jdeNESUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = jdeNESUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		637C711725D31F6E00AB8D29 /* jdeNESUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jdeNESUITests.swift; sourceTree = "<group>"; };
+		637C711925D31F6E00AB8D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		637C70F525D31F6D00AB8D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637C710525D31F6E00AB8D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637C711025D31F6E00AB8D29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		637C70EF25D31F6D00AB8D29 = {
+			isa = PBXGroup;
+			children = (
+				637C70FA25D31F6D00AB8D29 /* jdeNES */,
+				637C710B25D31F6E00AB8D29 /* jdeNESTests */,
+				637C711625D31F6E00AB8D29 /* jdeNESUITests */,
+				637C70F925D31F6D00AB8D29 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		637C70F925D31F6D00AB8D29 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				637C70F825D31F6D00AB8D29 /* jdeNES.app */,
+				637C710825D31F6E00AB8D29 /* jdeNESTests.xctest */,
+				637C711325D31F6E00AB8D29 /* jdeNESUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		637C70FA25D31F6D00AB8D29 /* jdeNES */ = {
+			isa = PBXGroup;
+			children = (
+				637C70FB25D31F6D00AB8D29 /* AppDelegate.swift */,
+				637C70FD25D31F6E00AB8D29 /* Assets.xcassets */,
+				637C70FF25D31F6E00AB8D29 /* MainMenu.xib */,
+				637C710225D31F6E00AB8D29 /* Info.plist */,
+				637C710325D31F6E00AB8D29 /* jdeNES.entitlements */,
+			);
+			path = jdeNES;
+			sourceTree = "<group>";
+		};
+		637C710B25D31F6E00AB8D29 /* jdeNESTests */ = {
+			isa = PBXGroup;
+			children = (
+				637C710C25D31F6E00AB8D29 /* jdeNESTests.swift */,
+				637C710E25D31F6E00AB8D29 /* Info.plist */,
+			);
+			path = jdeNESTests;
+			sourceTree = "<group>";
+		};
+		637C711625D31F6E00AB8D29 /* jdeNESUITests */ = {
+			isa = PBXGroup;
+			children = (
+				637C711725D31F6E00AB8D29 /* jdeNESUITests.swift */,
+				637C711925D31F6E00AB8D29 /* Info.plist */,
+			);
+			path = jdeNESUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		637C70F725D31F6D00AB8D29 /* jdeNES */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 637C711C25D31F6E00AB8D29 /* Build configuration list for PBXNativeTarget "jdeNES" */;
+			buildPhases = (
+				637C70F425D31F6D00AB8D29 /* Sources */,
+				637C70F525D31F6D00AB8D29 /* Frameworks */,
+				637C70F625D31F6D00AB8D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = jdeNES;
+			productName = jdeNES;
+			productReference = 637C70F825D31F6D00AB8D29 /* jdeNES.app */;
+			productType = "com.apple.product-type.application";
+		};
+		637C710725D31F6E00AB8D29 /* jdeNESTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 637C711F25D31F6E00AB8D29 /* Build configuration list for PBXNativeTarget "jdeNESTests" */;
+			buildPhases = (
+				637C710425D31F6E00AB8D29 /* Sources */,
+				637C710525D31F6E00AB8D29 /* Frameworks */,
+				637C710625D31F6E00AB8D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				637C710A25D31F6E00AB8D29 /* PBXTargetDependency */,
+			);
+			name = jdeNESTests;
+			productName = jdeNESTests;
+			productReference = 637C710825D31F6E00AB8D29 /* jdeNESTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		637C711225D31F6E00AB8D29 /* jdeNESUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 637C712225D31F6E00AB8D29 /* Build configuration list for PBXNativeTarget "jdeNESUITests" */;
+			buildPhases = (
+				637C710F25D31F6E00AB8D29 /* Sources */,
+				637C711025D31F6E00AB8D29 /* Frameworks */,
+				637C711125D31F6E00AB8D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				637C711525D31F6E00AB8D29 /* PBXTargetDependency */,
+			);
+			name = jdeNESUITests;
+			productName = jdeNESUITests;
+			productReference = 637C711325D31F6E00AB8D29 /* jdeNESUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		637C70F025D31F6D00AB8D29 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					637C70F725D31F6D00AB8D29 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					637C710725D31F6E00AB8D29 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 637C70F725D31F6D00AB8D29;
+					};
+					637C711225D31F6E00AB8D29 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = 637C70F725D31F6D00AB8D29;
+					};
+				};
+			};
+			buildConfigurationList = 637C70F325D31F6D00AB8D29 /* Build configuration list for PBXProject "jdeNES" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 637C70EF25D31F6D00AB8D29;
+			productRefGroup = 637C70F925D31F6D00AB8D29 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				637C70F725D31F6D00AB8D29 /* jdeNES */,
+				637C710725D31F6E00AB8D29 /* jdeNESTests */,
+				637C711225D31F6E00AB8D29 /* jdeNESUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		637C70F625D31F6D00AB8D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				637C70FE25D31F6E00AB8D29 /* Assets.xcassets in Resources */,
+				637C710125D31F6E00AB8D29 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637C710625D31F6E00AB8D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637C711125D31F6E00AB8D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		637C70F425D31F6D00AB8D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				637C70FC25D31F6D00AB8D29 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637C710425D31F6E00AB8D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				637C710D25D31F6E00AB8D29 /* jdeNESTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		637C710F25D31F6E00AB8D29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				637C711825D31F6E00AB8D29 /* jdeNESUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		637C710A25D31F6E00AB8D29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 637C70F725D31F6D00AB8D29 /* jdeNES */;
+			targetProxy = 637C710925D31F6E00AB8D29 /* PBXContainerItemProxy */;
+		};
+		637C711525D31F6E00AB8D29 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 637C70F725D31F6D00AB8D29 /* jdeNES */;
+			targetProxy = 637C711425D31F6E00AB8D29 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		637C70FF25D31F6E00AB8D29 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				637C710025D31F6E00AB8D29 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		637C711A25D31F6E00AB8D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		637C711B25D31F6E00AB8D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		637C711D25D31F6E00AB8D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = jdeNES/jdeNES.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S57EB39L66;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = jdeNES/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ensadi.jdeNES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		637C711E25D31F6E00AB8D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = jdeNES/jdeNES.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S57EB39L66;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = jdeNES/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ensadi.jdeNES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		637C712025D31F6E00AB8D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S57EB39L66;
+				INFOPLIST_FILE = jdeNESTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ensadi.jdeNESTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jdeNES.app/Contents/MacOS/jdeNES";
+			};
+			name = Debug;
+		};
+		637C712125D31F6E00AB8D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S57EB39L66;
+				INFOPLIST_FILE = jdeNESTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ensadi.jdeNESTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/jdeNES.app/Contents/MacOS/jdeNES";
+			};
+			name = Release;
+		};
+		637C712325D31F6E00AB8D29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S57EB39L66;
+				INFOPLIST_FILE = jdeNESUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ensadi.jdeNESUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = jdeNES;
+			};
+			name = Debug;
+		};
+		637C712425D31F6E00AB8D29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = S57EB39L66;
+				INFOPLIST_FILE = jdeNESUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.ensadi.jdeNESUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = jdeNES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		637C70F325D31F6D00AB8D29 /* Build configuration list for PBXProject "jdeNES" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				637C711A25D31F6E00AB8D29 /* Debug */,
+				637C711B25D31F6E00AB8D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		637C711C25D31F6E00AB8D29 /* Build configuration list for PBXNativeTarget "jdeNES" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				637C711D25D31F6E00AB8D29 /* Debug */,
+				637C711E25D31F6E00AB8D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		637C711F25D31F6E00AB8D29 /* Build configuration list for PBXNativeTarget "jdeNESTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				637C712025D31F6E00AB8D29 /* Debug */,
+				637C712125D31F6E00AB8D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		637C712225D31F6E00AB8D29 /* Build configuration list for PBXNativeTarget "jdeNESUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				637C712325D31F6E00AB8D29 /* Debug */,
+				637C712425D31F6E00AB8D29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 637C70F025D31F6D00AB8D29 /* Project object */;
+}
