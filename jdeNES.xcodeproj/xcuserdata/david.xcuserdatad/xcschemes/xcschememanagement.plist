@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>jdeNES Release.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>jdeNES.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>637C70F725D31F6D00AB8D29</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>637C710725D31F6E00AB8D29</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>637C711225D31F6E00AB8D29</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

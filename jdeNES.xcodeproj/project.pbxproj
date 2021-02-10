@@ -12,6 +12,17 @@
 		637C710125D31F6E00AB8D29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637C70FF25D31F6E00AB8D29 /* MainMenu.xib */; };
 		637C710D25D31F6E00AB8D29 /* jdeNESTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C710C25D31F6E00AB8D29 /* jdeNESTests.swift */; };
 		637C711825D31F6E00AB8D29 /* jdeNESUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C711725D31F6E00AB8D29 /* jdeNESUITests.swift */; };
+		637C712B25D3241E00AB8D29 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C712A25D3241E00AB8D29 /* GameEngine.swift */; };
+		637C713025D338BB00AB8D29 /* Sprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C712F25D338BB00AB8D29 /* Sprite.swift */; };
+		637C713A25D345E900AB8D29 /* Bus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C713925D345E900AB8D29 /* Bus.swift */; };
+		637C714225D3460000AB8D29 /* Nes6502.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C714125D3460000AB8D29 /* Nes6502.swift */; };
+		637C714725D3472400AB8D29 /* Nes2C02.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C714625D3472400AB8D29 /* Nes2C02.swift */; };
+		637C714C25D347F000AB8D29 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C714B25D347F000AB8D29 /* Cartridge.swift */; };
+		637C715925D377FF00AB8D29 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C715825D377FF00AB8D29 /* Mapper.swift */; };
+		637C715F25D3781900AB8D29 /* Mapper000.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C715E25D3781900AB8D29 /* Mapper000.swift */; };
+		637C716425D3AE5300AB8D29 /* UInt+Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C716325D3AE5300AB8D29 /* UInt+Bits.swift */; };
+		637C717125D41CF600AB8D29 /* CartridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C717025D41CF600AB8D29 /* CartridgeTests.swift */; };
+		637C717625D41D1F00AB8D29 /* Nes2C02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C717525D41D1F00AB8D29 /* Nes2C02Tests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +55,17 @@
 		637C711325D31F6E00AB8D29 /* jdeNESUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = jdeNESUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		637C711725D31F6E00AB8D29 /* jdeNESUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jdeNESUITests.swift; sourceTree = "<group>"; };
 		637C711925D31F6E00AB8D29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		637C712A25D3241E00AB8D29 /* GameEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
+		637C712F25D338BB00AB8D29 /* Sprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sprite.swift; sourceTree = "<group>"; };
+		637C713925D345E900AB8D29 /* Bus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bus.swift; sourceTree = "<group>"; };
+		637C714125D3460000AB8D29 /* Nes6502.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nes6502.swift; sourceTree = "<group>"; };
+		637C714625D3472400AB8D29 /* Nes2C02.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nes2C02.swift; sourceTree = "<group>"; };
+		637C714B25D347F000AB8D29 /* Cartridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cartridge.swift; sourceTree = "<group>"; };
+		637C715825D377FF00AB8D29 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
+		637C715E25D3781900AB8D29 /* Mapper000.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper000.swift; sourceTree = "<group>"; };
+		637C716325D3AE5300AB8D29 /* UInt+Bits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt+Bits.swift"; sourceTree = "<group>"; };
+		637C717025D41CF600AB8D29 /* CartridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartridgeTests.swift; sourceTree = "<group>"; };
+		637C717525D41D1F00AB8D29 /* Nes2C02Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nes2C02Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +116,8 @@
 		637C70FA25D31F6D00AB8D29 /* jdeNES */ = {
 			isa = PBXGroup;
 			children = (
+				637C713825D344D100AB8D29 /* CPU */,
+				637C713725D344AF00AB8D29 /* Engine */,
 				637C70FB25D31F6D00AB8D29 /* AppDelegate.swift */,
 				637C70FD25D31F6E00AB8D29 /* Assets.xcassets */,
 				637C70FF25D31F6E00AB8D29 /* MainMenu.xib */,
@@ -108,6 +132,8 @@
 			children = (
 				637C710C25D31F6E00AB8D29 /* jdeNESTests.swift */,
 				637C710E25D31F6E00AB8D29 /* Info.plist */,
+				637C717025D41CF600AB8D29 /* CartridgeTests.swift */,
+				637C717525D41D1F00AB8D29 /* Nes2C02Tests.swift */,
 			);
 			path = jdeNESTests;
 			sourceTree = "<group>";
@@ -119,6 +145,37 @@
 				637C711925D31F6E00AB8D29 /* Info.plist */,
 			);
 			path = jdeNESUITests;
+			sourceTree = "<group>";
+		};
+		637C713725D344AF00AB8D29 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				637C712A25D3241E00AB8D29 /* GameEngine.swift */,
+				637C712F25D338BB00AB8D29 /* Sprite.swift */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		637C713825D344D100AB8D29 /* CPU */ = {
+			isa = PBXGroup;
+			children = (
+				637C715D25D3780500AB8D29 /* Mappers */,
+				637C713925D345E900AB8D29 /* Bus.swift */,
+				637C714125D3460000AB8D29 /* Nes6502.swift */,
+				637C714625D3472400AB8D29 /* Nes2C02.swift */,
+				637C714B25D347F000AB8D29 /* Cartridge.swift */,
+				637C716325D3AE5300AB8D29 /* UInt+Bits.swift */,
+			);
+			path = CPU;
+			sourceTree = "<group>";
+		};
+		637C715D25D3780500AB8D29 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				637C715825D377FF00AB8D29 /* Mapper.swift */,
+				637C715E25D3781900AB8D29 /* Mapper000.swift */,
+			);
+			path = Mappers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,7 +307,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637C713025D338BB00AB8D29 /* Sprite.swift in Sources */,
+				637C715F25D3781900AB8D29 /* Mapper000.swift in Sources */,
 				637C70FC25D31F6D00AB8D29 /* AppDelegate.swift in Sources */,
+				637C716425D3AE5300AB8D29 /* UInt+Bits.swift in Sources */,
+				637C713A25D345E900AB8D29 /* Bus.swift in Sources */,
+				637C714725D3472400AB8D29 /* Nes2C02.swift in Sources */,
+				637C715925D377FF00AB8D29 /* Mapper.swift in Sources */,
+				637C714C25D347F000AB8D29 /* Cartridge.swift in Sources */,
+				637C712B25D3241E00AB8D29 /* GameEngine.swift in Sources */,
+				637C714225D3460000AB8D29 /* Nes6502.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +324,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				637C717625D41D1F00AB8D29 /* Nes2C02Tests.swift in Sources */,
 				637C710D25D31F6E00AB8D29 /* jdeNESTests.swift in Sources */,
+				637C717125D41CF600AB8D29 /* CartridgeTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
