@@ -8,45 +8,51 @@
 class Bus {
 	let cpu = Nes6502()
 	let ppu = Nes2C02()
-	var cpuRam = [UInt8](repeating: 0, count: 0x1000)
+	var cpuRam = [Int](repeating: 0, count: 0xFFFF)
 	var cart: Cartridge!
-	var systemClockCounter: UInt32 = 0
+	var controller = [Int](repeating: 0, count: 2)
+
+	private var systemClockCounter: Int = 0
+	private var controller_state = [Int](repeating: 0, count: 2)
 	
+	// DMA stuff
+	private var dma_page = 0
+	private var dma_addr = 0
+	private var dma_data = 0
+	private var dma_transfer = false
+	private var dma_dummy = true
+
 	init() {
 		cpu.ConnectBus(self)
 	}
 
-	private subscript(x: UInt16) -> UInt8 {
-		get {
-			precondition(x < cpuRam.count)
-			
-			return cpuRam[Int(x)]
-		}
-		set(v) {
-			precondition(x < cpuRam.count)
-			
-			cpuRam[Int(x)] = v
-		}
-	}
-
-	func cpuWrite(addr: UInt16, data: UInt8) {
+	func cpuWrite(addr: Int, data: Int) {
 		if let _ = cart.cpuWrite(addr: addr, data: data) {
 		} else if addr >= 0x0000 && addr <= 0x1FFF {
-			self[addr & 0x07FF] = data
+			cpuRam[addr & 0x07FF] = data
 		} else if addr >= 0x2000 && addr <= 0x3FFF {
 			ppu.cpuWrite(addr: addr & 0x0007, data: data)
+		} else if addr == 0x4014 {
+			dma_page = data
+			dma_addr = 0
+			dma_transfer = true
+		} else if addr >= 0x4016 && addr <= 0x4017 {
+			controller_state[addr & 0x0001] = controller[addr & 0x0001]
 		}
 	}
 	
-	func cpuRead(addr: UInt16, readonly: Bool = false) -> UInt8 {
-		var data: UInt8 = 0x00
+	func cpuRead(addr: Int, readonly: Bool = false) -> Int {
+		var data = 0x00
 		if let cartData = cart.cpuRead(addr: addr) {
 			data = cartData
 		}
 		else if addr >= 0x0000 && addr <= 0x1FFF {
-			data = self[addr & 0x07FF]
+			data = cpuRam[addr & 0x07FF]
 		} else if addr >= 0x2000 && addr <= 0x3FFF {
 			data = ppu.cpuRead(addr: addr & 0x0007, readonly: readonly)
+		} else if addr >= 0x4016 && addr <= 0x4017 {
+			data = (controller_state[addr & 0x0001] & 0x80) >> 7
+			controller_state[addr & 0x0001] <<= 1
 		}
 		return data
 	}
@@ -64,7 +70,27 @@ class Bus {
 	func clock() {
 		ppu.clock()
 		if systemClockCounter % 3 == 0 {
-			cpu.clock()
+			if dma_transfer {
+				if dma_dummy {
+					if systemClockCounter % 2 == 1 {
+						dma_dummy = false
+					}
+				} else {
+					if systemClockCounter % 2 == 0 {
+						dma_data = cpuRead(addr: (dma_page << 8) | dma_addr)
+					} else {
+						ppu.OAM[dma_addr] = dma_data
+						dma_addr += 1
+						
+						if dma_addr > 255 {
+							dma_transfer = false
+							dma_dummy = true
+						}
+					}
+				}
+			} else {
+				cpu.clock()
+			}
 		}
 
 		if ppu.nmi {

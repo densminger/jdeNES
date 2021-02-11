@@ -15,11 +15,11 @@ class Cartridge {
 		case oneScreen_Hi
 	}
 	
-	var prgMemory: [UInt8]!
-	var chrMemory: [UInt8]!
-	var mapperID: UInt8 = 0
-	var prgBanks: UInt8 = 0
-	var chrBanks: UInt8 = 0
+	var prgMemory: [Int]!
+	var chrMemory: [Int]!
+	var mapperID = 0
+	var prgBanks = 0
+	var chrBanks = 0
 	var mapper: Mapper!
 	var mirror = Mirror.horizontal
 
@@ -38,9 +38,11 @@ class Cartridge {
 	}
 
 	func populateWithContentsOf(_ filename: String) -> Bool {
+		let url = URL(fileURLWithPath: filename)
+		print(url)
 		let data: Data
 		do {
-			data = try Data(contentsOf: URL(fileURLWithPath: filename))
+				data = try Data(contentsOf: url)
 		} catch {
 			print(error)
 			return false
@@ -68,7 +70,7 @@ class Cartridge {
 			offset += 512
 		}
 
-		mapperID = UInt8(((mapper2 >> 4) << 4) | (mapper1 >> 4))
+		mapperID = ((mapper2 >> 4) << 4) | (mapper1 >> 4)
 		mirror = (mapper1 & 0x01) > 0 ? .vertical : .horizontal
 
 		let fileType = 1	// assume filetype 1 for now
@@ -77,12 +79,11 @@ class Cartridge {
 		case 0:
 			break
 		case 1:
-			prgBanks = UInt8(prgRomChunks)
-			//self.prgMemory = list(f.read(self.prgBanks * 16384))
-			prgMemory = Array(data[offset ..< offset + 16384 * prgRomChunks])
+			prgBanks = prgRomChunks
+			prgMemory = Array(data[offset ..< offset + 16384 * prgRomChunks]).map {Int($0)}
 			offset += 16384 * prgRomChunks
-			chrBanks = UInt8(chrRomChunks)
-			chrMemory = Array(data[offset ..< offset + 8192 * chrRomChunks])
+			chrBanks = chrRomChunks
+			chrMemory = Array(data[offset ..< offset + 8192 * chrRomChunks]).map {Int($0)}
 		case 2:
 			break
 		default:
@@ -92,31 +93,31 @@ class Cartridge {
 		return true
 	}
 
-	func cpuRead(addr: UInt16) -> UInt8? {
+	func cpuRead(addr: Int) -> Int? {
 		if let mapped_addr = mapper.cpuMapRead(addr: addr) {
-			return prgMemory[Int(mapped_addr)]
+			return prgMemory[mapped_addr]
 		}
 		return nil
 	}
 
-	func cpuWrite(addr: UInt16, data: UInt8) -> UInt8? {
+	func cpuWrite(addr: Int, data: Int) -> Int? {
 		if let mapped_addr = mapper.cpuMapWrite(addr: addr) {
-			prgMemory[Int(mapped_addr)] = data
+			prgMemory[mapped_addr] = data
 			return data
 		}
 		return nil
 	}
 	
-	func ppuRead(addr: UInt16) -> UInt8? {
+	func ppuRead(addr: Int) -> Int? {
 		if let mapped_addr = mapper.ppuMapRead(addr: addr) {
-			return chrMemory[Int(mapped_addr)]
+			return chrMemory[mapped_addr]
 		}
 		return nil
 	}
 	
-	func ppuWrite(addr: UInt16, data: UInt8) -> UInt8? {
+	func ppuWrite(addr: Int, data: Int) -> Int? {
 		if let mapped_addr = mapper.ppuMapWrite(addr: addr) {
-			chrMemory[Int(mapped_addr)] = data
+			chrMemory[mapped_addr] = data
 			return data
 		}
 		return nil

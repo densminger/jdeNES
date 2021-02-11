@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		window.contentAspectRatio = GameEngine.screenSize
 		window.contentMinSize = GameEngine.screenSize
 
-		open(path: "smb.nes")
+		open(path: ProcessInfo.processInfo.environment["file"] ?? "")
 	}
 
 	func open(path: String) {

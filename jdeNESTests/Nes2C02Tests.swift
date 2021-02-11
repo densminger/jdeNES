@@ -341,8 +341,8 @@ class Nes2C02Tests: XCTestCase {
 		XCTAssert(sut.vram_addr == 0b1100_1011_1100_0011)
 
 		sut.vram_addr = 0b1100_0011_1100_0011
-		sut.vram_addr[sut.loopyFineY] = 0b101
-		XCTAssert(sut.vram_addr == 0b1101_0011_1100_0011)
+		sut.vram_addr[sut.loopyFineY] = 0b000
+		XCTAssert(sut.vram_addr == 0b1000_0011_1100_0011)
 	}
 
 }

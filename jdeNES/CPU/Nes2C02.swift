@@ -7,81 +7,93 @@
 
 class Nes2C02 {
 	// Status
-	let spriteOverflow: UInt8       = 0b0010_0000
-	let spriteZero: UInt8           = 0b0100_0000
-	let verticalBlank: UInt8        = 0b1000_0000
+	let spriteOverflow       = 0b0010_0000
+	let spriteZero           = 0b0100_0000
+	let verticalBlank        = 0b1000_0000
 
 	// Mask
-	let grayscale: UInt8            = 0b0000_0001
-	let renderBackgroundLeft: UInt8 = 0b0000_0010
-	let renderSpriteLeft: UInt8     = 0b0000_0100
-	let renderBackground: UInt8     = 0b0000_1000
-	let renderSprite: UInt8         = 0b0001_0000
-	let enhanceRed: UInt8           = 0b0010_0000
-	let enhanceGreen: UInt8         = 0b0100_0000
-	let enhanceBlue: UInt8          = 0b1000_0000
+	let grayscale            = 0b0000_0001
+	let renderBackgroundLeft = 0b0000_0010
+	let renderSpriteLeft     = 0b0000_0100
+	let renderBackground     = 0b0000_1000
+	let renderSprite         = 0b0001_0000
+	let enhanceRed           = 0b0010_0000
+	let enhanceGreen         = 0b0100_0000
+	let enhanceBlue          = 0b1000_0000
 
 	// Control
-	let nameTableX: UInt8           = 0b0000_0001
-	let nameTableY: UInt8           = 0b0000_0010
-	let incrementMode: UInt8        = 0b0000_0100
-	let patternSprite: UInt8        = 0b0000_1000
-	let patternBackground: UInt8    = 0b0001_0000
-	let spriteSize: UInt8           = 0b0010_0000
-	let slaveMode: UInt8            = 0b0100_0000
-	let enableNMI: UInt8            = 0b1000_0000
+	let nameTableX           = 0b0000_0001
+	let nameTableY           = 0b0000_0010
+	let incrementMode        = 0b0000_0100
+	let patternSprite        = 0b0000_1000
+	let patternBackground    = 0b0001_0000
+	let spriteSize           = 0b0010_0000
+	let slaveMode            = 0b0100_0000
+	let enableNMI            = 0b1000_0000
 
 	// loopy
-	let loopyCoarseX: UInt16    = 0b0000_0000_0001_1111
-	let loopyCoarseY: UInt16    = 0b0000_0011_1110_0000
-	let loopyNameTableX: UInt16 = 0b0000_0100_0000_0000
-	let loopyNameTableY: UInt16 = 0b0000_1000_0000_0000
-	let loopyFineY: UInt16      = 0b0111_0000_0000_0000
+	let loopyCoarseX    = 0b0000_0000_0001_1111
+	let loopyCoarseY    = 0b0000_0011_1110_0000
+	let loopyNameTableX = 0b0000_0100_0000_0000
+	let loopyNameTableY = 0b0000_1000_0000_0000
+	let loopyFineY      = 0b0111_0000_0000_0000
 
 	// Registers
-	var status: UInt8  = 0x00
-	var mask: UInt8    = 0x00
-	var control: UInt8 = 0x00
-	var vram_addr: UInt16 = 0x0000
-	var tram_addr: UInt16 = 0x0000
+	var status    = 0x00
+	var mask      = 0x00
+	var control   = 0x00
+	var vram_addr = 0x0000
+	var tram_addr = 0x0000
+	
+	// OAM
+//	var oamY         = 0xFF000000
+//	var oamID        = 0x00FF0000
+//	var oamAttribute = 0x0000FF00
+//	var oamX         = 0x000000FF
+	var OAM = Array(repeating: 0, count: 64*4)
+	private var spriteScanline = Array(repeating: 0, count: 8*4)
+	private var sprite_count = 0
+	private var sprite_shifter_pattern_lo = Array(repeating: 0, count: 8)
+	private var sprite_shifter_pattern_hi = Array(repeating: 0, count: 8)
 
 	var address_latch = false
-	var ppu_data_buffer: UInt8 = 0x00
-	var ppu_address: UInt16 = 0x0000
-	var fine_x: UInt8 = 0x00
-
+	var ppu_data_buffer = 0x00
+	var ppu_address = 0x0000
+	var fine_x = 0x00
+	var oam_addr = 0
+	
 	var nmi = false
 	
 	var cart: Cartridge!
 	
 	// tblName dimensions = [2][1024]
-	var tblName = Array(repeating: Array(repeating: UInt8(0), count: 1024), count: 2)
+	var tblName = Array(repeating: Array(repeating: 0, count: 1024), count: 2)
 	
 	// tblPalette dimensions = [32]
-	var tblPalette = Array(repeating: UInt8(0), count: 32)
+	var tblPalette = Array(repeating: 0, count: 32)
 	
 	// tblPattern dimensions = [2][4096]
-	var tblPattern = Array(repeating: Array(repeating: UInt(0), count: 4096), count: 2)
+	var tblPattern = Array(repeating: Array(repeating: 0, count: 4096), count: 2)
 	
-	var bg_next_tile_id: UInt8 = 0x00
-	var bg_next_tile_attrib: UInt8 = 0x00
-	var bg_next_tile_lsb: UInt8 = 0x00
-	var bg_next_tile_msb: UInt8 = 0x00
+	var bg_next_tile_id = 0x00
+	var bg_next_tile_attrib = 0x00
+	var bg_next_tile_lsb = 0x00
+	var bg_next_tile_msb = 0x00
 	
-	var bg_shifter_pattern_lo: UInt16 = 0x0000
-	var bg_shifter_pattern_hi: UInt16 = 0x0000
-	var bg_shifter_attrib_lo: UInt16 = 0x0000
-	var bg_shifter_attrib_hi: UInt16 = 0x0000
+	var bg_shifter_pattern_lo = 0x0000
+	var bg_shifter_pattern_hi = 0x0000
+	var bg_shifter_attrib_lo = 0x0000
+	var bg_shifter_attrib_hi = 0x0000
 	
-	private static func rgbToUInt32(_ r: Int, _ g: Int, _ b: Int) -> UInt32 {
-		return 0xFF000000 | UInt32(r << 16) | UInt32(g << 8) | UInt32(b)
+	private static func rgbToInt(_ r: Int, _ g: Int, _ b: Int) -> UInt32 {
+		return UInt32(0xFF000000 | (b << 16) | (g << 8) | r)
 	}
 	
 	var palScreen = [
-		rgbToUInt32(84, 84, 84),       rgbToUInt32(0, 30, 116),       rgbToUInt32(8, 16, 144),       rgbToUInt32(48, 0, 136),       rgbToUInt32(68, 0, 100),       rgbToUInt32(92, 0, 48),        rgbToUInt32(84, 4, 0),         rgbToUInt32(60, 24, 0),        rgbToUInt32(32, 42, 0),        rgbToUInt32(8, 58, 0),         rgbToUInt32(0, 64, 0),         rgbToUInt32(0, 60, 0),         rgbToUInt32(0, 50, 60),        rgbToUInt32(0, 0, 0),          rgbToUInt32(0, 0, 0), rgbToUInt32(0, 0, 0),
-		rgbToUInt32(152, 150, 152),    rgbToUInt32(8, 76, 196),       rgbToUInt32(48, 50, 236),      rgbToUInt32(92, 30, 228),      rgbToUInt32(136, 20, 176),     rgbToUInt32(160, 20, 100),     rgbToUInt32(152, 34, 32),      rgbToUInt32(120, 60, 0),       rgbToUInt32(84, 90, 0),        rgbToUInt32(40, 114, 0),       rgbToUInt32(8, 124, 0),        rgbToUInt32(0, 118, 40),       rgbToUInt32(0, 102, 120),      rgbToUInt32(0, 0, 0),          rgbToUInt32(0, 0, 0), rgbToUInt32(0, 0, 0),
-		rgbToUInt32(236, 238, 236),    rgbToUInt32(76, 154, 236),     rgbToUInt32(120, 124, 236),    rgbToUInt32(176, 98, 236),     rgbToUInt32(228, 84, 236),     rgbToUInt32(236, 88, 180),     rgbToUInt32(236, 106, 100),    rgbToUInt32(212, 136, 32),     rgbToUInt32(160, 170, 0),      rgbToUInt32(116, 196, 0),      rgbToUInt32(76, 208, 32),      rgbToUInt32(56, 204, 108),     rgbToUInt32(56, 180, 204),     rgbToUInt32(60, 60, 60),       rgbToUInt32(0, 0, 0), rgbToUInt32(0, 0, 0),
-		rgbToUInt32(236, 238, 236),    rgbToUInt32(168, 204, 236),    rgbToUInt32(188, 188, 236),    rgbToUInt32(212, 178, 236),    rgbToUInt32(236, 174, 236),    rgbToUInt32(236, 174, 212),    rgbToUInt32(236, 180, 176),    rgbToUInt32(228, 196, 144),    rgbToUInt32(204, 210, 120),    rgbToUInt32(180, 222, 120),    rgbToUInt32(168, 226, 144),    rgbToUInt32(152, 226, 180),    rgbToUInt32(160, 214, 228),    rgbToUInt32(160, 162, 160),    rgbToUInt32(0, 0, 0), rgbToUInt32(0, 0, 0)
+		rgbToInt(84, 84, 84),       rgbToInt(0, 30, 116),       rgbToInt(8, 16, 144),       rgbToInt(48, 0, 136),       rgbToInt(68, 0, 100),       rgbToInt(92, 0, 48),        rgbToInt(84, 4, 0),         rgbToInt(60, 24, 0),        rgbToInt(32, 42, 0),        rgbToInt(8, 58, 0),         rgbToInt(0, 64, 0),         rgbToInt(0, 60, 0),         rgbToInt(0, 50, 60),        rgbToInt(0, 0, 0),          rgbToInt(0, 0, 0), rgbToInt(0, 0, 0),
+		rgbToInt(152, 150, 152),    rgbToInt(8, 76, 196),       rgbToInt(48, 50, 236),      rgbToInt(92, 30, 228),      rgbToInt(136, 20, 176),     rgbToInt(160, 20, 100),     rgbToInt(152, 34, 32),      rgbToInt(120, 60, 0),       rgbToInt(84, 90, 0),        rgbToInt(40, 114, 0),       rgbToInt(8, 124, 0),        rgbToInt(0, 118, 40),       rgbToInt(0, 102, 120),      rgbToInt(0, 0, 0),          rgbToInt(0, 0, 0), rgbToInt(0, 0, 0),
+		rgbToInt(236, 238, 236),    rgbToInt(76, 154, 236),     rgbToInt(120, 124, 236),    rgbToInt(176, 98, 236),     rgbToInt(228, 84, 236),     rgbToInt(236, 88, 180),     rgbToInt(236, 106, 100),    rgbToInt(212, 136, 32),     rgbToInt(160, 170, 0),      rgbToInt(116, 196, 0),      rgbToInt(76, 208, 32),      rgbToInt(56, 204, 108),     rgbToInt(56, 180, 204),     rgbToInt(60, 60, 60),       rgbToInt(0, 0, 0), rgbToInt(0, 0, 0),
+		rgbToInt(236, 238, 236),    rgbToInt(168, 204, 236),    rgbToInt(188, 188, 236),    rgbToInt(212, 178, 236),    rgbToInt(236, 174, 236),    rgbToInt(236, 174, 212),    rgbToInt(236, 180, 176),    rgbToInt(228, 196, 144),    rgbToInt(204, 210, 120),    rgbToInt(180, 222, 120),    rgbToInt(168, 226, 144),    rgbToInt(152, 226, 180),    rgbToInt(160, 214, 228),    rgbToInt(160, 162, 160),    rgbToInt(0, 0, 0), rgbToInt(0, 0, 0)
 	]
 	
 	var sprScreen = Sprite(width: 256, height: 240)
@@ -106,13 +118,19 @@ class Nes2C02 {
 			for tileX in 0 ..< 16 {
 				let offset = tileY * 256 + tileX * 16
 				for row in 0 ..< 8 {
-					var tile_lsb = ppuRead(addr: UInt16(i * 0x1000 + offset + row))
-					var tile_msb = ppuRead(addr: UInt16(i * 0x1000 + offset + row + 8))
+					var tile_lsb = ppuRead(addr: i * 0x1000 + offset + row)
+					var tile_msb = ppuRead(addr: i * 0x1000 + offset + row + 8)
 					for col in 0 ..< 8 {
 						let pixel = ((tile_msb & 0x01) << 1) | (tile_lsb & 0x01)
 						tile_lsb >>= 1
 						tile_msb >>= 1
-						sprPatternTable[i][tileX * 8 + (7 - col), tileY * 8 + row] = GetColorFromPaletteRam(palette: palette, pixel: Int(pixel))
+//						let xx = tileX * 8 + (7 - col)
+//						let yy = tileY * 8 + row
+//						if xx < 0 || xx > 127 || yy < 0 || yy > 127 {
+//							print("oh no! [\(xx), \(yy)]")
+//						}
+//						print("[x,y] = [\(tileX * 8 + (7 - col)), \(tileY * 8 + row)] (tileX = \(tileX), tileY = \(tileY), col = \(col), row = \(row)")
+						sprPatternTable[i][tileX * 8 + (7 - col), tileY * 8 + row] = GetColorFromPaletteRam(palette: palette, pixel: pixel)
 					}
 				}
 			}
@@ -121,331 +139,545 @@ class Nes2C02 {
 	}
 
 	func GetColorFromPaletteRam(palette: Int, pixel: Int) -> UInt32 {
-		return palScreen[Int(ppuRead(addr: UInt16(0x3F00 + (palette << 2) + pixel) & 0x3F))]
+		return palScreen[ppuRead(addr: 0x3F00 + (palette << 2) + pixel) & 0x3F]
 	}
 
-	func cpuWrite(addr: UInt16, data: UInt8) {
+	func cpuWrite(addr: Int, data: Int) {
+		switch addr {
+		case 0x0000:		// control
+			control = data
+			tram_addr[loopyNameTableX] = control[nameTableX]
+			tram_addr[loopyNameTableY] = control[nameTableY]
+		case 0x0001:		// mask
+			mask = data
+		case 0x0002:		// status
+			break
+		case 0x0003:		// oam address
+			oam_addr = data
+		case 0x0004:		// oam data
+			OAM[oam_addr] = data
+			break
+		case 0x0005:		// scroll
+			if address_latch {
+				tram_addr[loopyFineY] = data & 0x07
+				tram_addr[loopyCoarseY] = data >> 3
+				address_latch = false
+			} else {
+				fine_x = data & 0x07
+				tram_addr[loopyCoarseX] = data >> 3
+				address_latch = true
+			}
+		case 0x0006:		// ppu address
+			if address_latch {
+				tram_addr = (tram_addr & 0xFF00) | data
+				vram_addr = tram_addr
+				address_latch = false
+			} else {
+				tram_addr = (tram_addr & 0x00FF) | (data << 8)
+				address_latch = true
+			}
+		case 0x0007:		// ppu data
+			ppuWrite(addr: vram_addr, data: data)
+			vram_addr += control[incrementMode] > 0 ? 32 : 1
+		default:
+			break
+		}
 	}
 
-	func cpuRead(addr: UInt16, readonly: Bool = false) -> UInt8 {
-		return 0x00
+	func cpuRead(addr: Int, readonly: Bool = false) -> Int {
+		var data = 0x00
+
+		if readonly {
+			switch addr {
+			case 0x0000:			// control
+				data = control
+			case 0x0001:			// mask
+				data = mask
+			case 0x0002:			// status
+				data = status
+			case 0x0003:			// oam address
+				break
+			case 0x0004:    		// oam data
+				break
+			case 0x0005:			// scroll
+				break
+			case 0x0006:			// ppu address
+				break
+			case 0x0007:			// ppu data
+				break
+			default:
+				break
+			}
+		}
+		else {
+			switch addr {
+			case 0x0000:			// control
+				break
+			case 0x0001:			// mask
+				break
+			case 0x0002:			// status
+				data = (status & 0xE0) | (ppu_data_buffer & 0x1F)
+				status[verticalBlank] = 0
+				address_latch = false
+			case 0x0003:			// oam address
+				break
+			case 0x0004:			// oam data
+				data = OAM[oam_addr]
+			case 0x0005:			// scroll
+				break
+			case 0x0006:			// ppu address
+				break
+			case 0x0007:			// ppu data
+				data = ppu_data_buffer
+				ppu_data_buffer = ppuRead(addr: vram_addr)
+
+				if vram_addr > 0x3F00 {
+					data = ppu_data_buffer
+				}
+
+				vram_addr += control[incrementMode] > 0 ? 32 : 1
+			default:
+				break
+			}
+		}
+		return data
 	}
 					
-	func ppuRead(addr: UInt16) -> UInt8 {
-		return 0x00
+	func ppuRead(addr inAddr: Int) -> Int {
+		var data = 0x00
+		var addr = inAddr & 0x3FFF
+
+		if let cartData = cart.ppuRead(addr: addr) {
+			data = cartData
+		} else if addr >= 0x0000 && addr <= 0x1FFF {
+			data = tblPattern[(addr & 0x1000) >> 12][addr & 0x0FFF]
+		} else if addr >= 0x2000 && addr <= 0x3EFF {
+			addr &= 0x0FFF
+			if cart.mirror == .vertical {
+				if addr >= 0x0000 && addr <= 0x03FF {
+					data = tblName[0][addr & 0x03FF]
+				} else if addr >= 0x0400 && addr <= 0x07FF {
+					data = tblName[1][addr & 0x03FF]
+				} else if addr >= 0x0800 && addr <= 0x0BFF {
+					data = tblName[0][addr & 0x03FF]
+				} else if addr >= 0x0C00 && addr <= 0x0FFF {
+					data = tblName[1][addr & 0x03FF]
+				}
+			} else if cart.mirror == .horizontal {
+				if addr >= 0x0000 && addr <= 0x03FF {
+					data = tblName[0][addr & 0x03FF]
+				} else if addr >= 0x0400 && addr <= 0x07FF {
+					data = tblName[0][addr & 0x03FF]
+				} else if addr >= 0x0800 && addr <= 0x0BFF {
+					data = tblName[1][addr & 0x03FF]
+				} else if addr >= 0x0C00 && addr <= 0x0FFF {
+					data = tblName[1][addr & 0x03FF]
+				}
+			}
+		} else if addr >= 0x3F00 && addr <= 0x3FFF {
+			addr &= 0x001F
+			if addr == 0x0010 {
+				addr = 0x0000
+			} else if addr == 0x0014 {
+				addr = 0x0004
+			} else if addr == 0x0018 {
+				addr = 0x0008
+			} else if addr == 0x001C {
+				addr = 0x000C
+			}
+			data = tblPalette[addr] & (mask[grayscale] > 0 ? 0x30 : 0x3F)
+		}
+		return data
+	}
+	
+	func ppuWrite(addr inAddr: Int, data: Int) {
+		var addr = inAddr & 0x3FFF
+
+		if let _ = cart.ppuWrite(addr: addr, data: data) {
+		} else if addr >= 0x0000 && addr <= 0x1FFF {
+			tblPattern[(addr & 0x1000) >> 12][addr & 0x0FFF] = data
+		} else if addr >= 0x2000 && addr <= 0x3EFF {
+			addr &= 0x0FFF
+			if cart.mirror == .vertical {
+				if addr >= 0x0000 && addr <= 0x03FF {
+					tblName[0][addr & 0x03FF] = data
+				} else if addr >= 0x0400 && addr <= 0x07FF {
+					tblName[1][addr & 0x03FF] = data
+				} else if addr >= 0x0800 && addr <= 0x0BFF {
+					tblName[0][addr & 0x03FF] = data
+				} else if addr >= 0x0C00 && addr <= 0x0FFF {
+					tblName[1][addr & 0x03FF] = data
+				}
+			} else if cart.mirror == .horizontal {
+				if addr >= 0x0000 && addr <= 0x03FF {
+					tblName[0][addr & 0x03FF] = data
+				} else if addr >= 0x0400 && addr <= 0x07FF {
+					tblName[0][addr & 0x03FF] = data
+				} else if addr >= 0x0800 && addr <= 0x0BFF {
+					tblName[1][addr & 0x03FF] = data
+				} else if addr >= 0x0C00 && addr <= 0x0FFF {
+					tblName[1][addr & 0x03FF] = data
+				}
+			}
+		} else if addr >= 0x3F00 && addr <= 0x3FFF {
+			addr &= 0x001F
+			if addr == 0x0010 {
+				addr = 0x0000
+			} else if addr == 0x0014 {
+				addr = 0x0004
+			} else if addr == 0x0018 {
+				addr = 0x0008
+			} else if addr == 0x001C {
+				addr = 0x000C
+			}
+			tblPalette[addr] = data
+		}
 	}
 	
 	func ConnectCartridge(_ cart: Cartridge) {
+		self.cart = cart
 	}
 	
 	func clock() {
-	}
-/*
-	def cpuRead(self, addr, readonly=False):
-		data = 0x00
+		func IncrementScrollX() {
+			if mask[renderBackground] > 0 || mask[renderSprite] > 0 {
+				if vram_addr[loopyCoarseX] == 31 {
+					vram_addr[loopyCoarseX] = 0
+					if vram_addr[loopyNameTableX] > 0 {
+						vram_addr[loopyNameTableX] = 0
+					} else {
+						vram_addr[loopyNameTableX] = 1
+					}
+				} else {
+					vram_addr[loopyCoarseX] += 1
+				}
+			}
+		}
 
-		if readonly:
-			if addr == 0x0000:      # control
-				data = self.control
-			elif addr == 0x0001:    # mask
-				data = self.mask
-			elif addr == 0x0002:    # status
-				data = self.status
-			elif addr == 0x0003:    # oam address
-				pass
-			elif addr == 0x0004:    # oam data
-				pass
-			elif addr == 0x0005:    # scroll
-				pass
-			elif addr == 0x0006:    # ppu address
-				pass
-			elif addr == 0x0007:    # ppu data
-				pass
-		else:
-			if addr == 0x0000:      # control
-				pass
-			elif addr == 0x0001:    # mask
-				pass
-			elif addr == 0x0002:    # status
-				# if (self.status & self.STATUS_VERTBLANK) > 0:
-				#     print("  (PPU) reading status - vertblank true")
-				data = (self.status & 0xE0) | (self.ppu_data_buffer & 0x1F)
-				# if (data & self.STATUS_VERTBLANK) > 0:
-				#     print("  (PPU) data has vertblank (0x%02X)" % (data))
-				self.status &= ~self.STATUS_VERTBLANK
-				self.address_latch = 0
-			elif addr == 0x0003:    # oam address
-				pass
-			elif addr == 0x0004:    # oam data
-				pass
-			elif addr == 0x0005:    # scroll
-				pass
-			elif addr == 0x0006:    # ppu address
-				pass
-			elif addr == 0x0007:    # ppu data
-				data = self.ppu_data_buffer
-				self.ppu_data_buffer = self.ppuRead(self.vram_addr)
+		func IncrementScrollY() {
+			if mask[renderBackground] > 0 || mask[renderSprite] > 0 {
+				if vram_addr[loopyFineY] < 7 {
+					vram_addr[loopyFineY] += 1
+				} else {
+					vram_addr[loopyFineY] = 0
 
-				if self.vram_addr > 0x3F00:
-					data = self.ppu_data_buffer
+					if vram_addr[loopyCoarseY] == 29 {
+						vram_addr[loopyCoarseY] = 0
+						if vram_addr[loopyNameTableY] > 0 {
+							vram_addr[loopyNameTableY] = 0
+						} else {
+							vram_addr[loopyNameTableY] = 1
+						}
+					} else if vram_addr[loopyCoarseY] == 31 {
+						vram_addr[loopyCoarseY] = 0
+					} else {
+						vram_addr[loopyCoarseY] += 1
+					}
+				}
+			}
+		}
 
-				self.vram_addr += 32 if (self.control & self.CONTROL_INC_MODE > 0) else 1
-		# print("  (PPU) returning 0x%02X" % (data))
-		return data
+		func TransferAddressX() {
+			if mask[renderBackground] > 0 || mask[renderSprite] > 0 {
+				vram_addr[loopyNameTableX] = tram_addr[loopyNameTableX]
+				vram_addr[loopyCoarseX]    = tram_addr[loopyCoarseX]
+			}
+		}
 
-	def cpuWrite(self, addr, data):
-		if addr == 0x0000:      # control
-			self.control = data
-			if self.control & self.CONTROL_NAMETBL_X > 0:
-				self.tram_addr |= self.LOOPY_NAMETBL_X
-			else:
-				self.tram_addr &= ~self.LOOPY_NAMETBL_X
-			if self.control & self.CONTROL_NAMETBL_Y > 0:
-				self.tram_addr |= self.LOOPY_NAMETBL_Y
-			else:
-				self.tram_addr &= ~self.LOOPY_NAMETBL_Y
-		elif addr == 0x0001:    # mask
-			self.mask = data
-		elif addr == 0x0002:    # status
-			pass
-		elif addr == 0x0003:    # oam address
-			pass
-		elif addr == 0x0004:    # oam data
-			pass
-		elif addr == 0x0005:    # scroll
-			if self.address_latch == 0:
-				self.fine_x = data & 0x07
-				self.tram_addr = (self.tram_addr & ~self.LOOPY_COARSE_X) | (data >> 3)
-				self.address_latch = 1
-			else:
-				self.fine_y = data & 0x07
-				self.tram_addr = (self.tram_addr & ~self.LOOPY_COARSE_Y) | ((data >> 3) << 5)
-				self.address_latch = 0
-		elif addr == 0x0006:    # ppu address
-			if self.address_latch == 0:
-				self.tram_addr = (self.tram_addr & 0x00FF) | (data << 8)
-				self.address_latch = 1
-			else:
-				self.tram_addr = (self.tram_addr & 0xFF00) | data
-				self.vram_addr = self.tram_addr
-				self.address_latch = 0
-		elif addr == 0x0007:    # ppu data
-			self.ppuWrite(self.vram_addr, data)
-			self.vram_addr += 32 if (self.control & self.CONTROL_INC_MODE > 0) else 1
+		func TransferAddressY() {
+			if mask[renderBackground] > 0 || mask[renderSprite] > 0 {
+				vram_addr[loopyFineY]      = tram_addr[loopyFineY]
+				vram_addr[loopyNameTableY] = tram_addr[loopyNameTableY]
+				vram_addr[loopyCoarseY]    = tram_addr[loopyCoarseY]
+			}
+		}
 
-	def ppuRead(self, addr, readonly=False):
-		data = 0x00
-		addr &= 0x3FFF
 
-		cartData = self.cart.ppuRead(addr)
-		if cartData:
-			data = cartData
-		elif addr >= 0x0000 and addr <= 0x1FFF:
-			data = self.tblPattern[(addr & 0x1000) >> 12][addr & 0x0FFF]
-		elif addr >= 0x2000 and addr <= 0x3EFF:
-			addr &= 0x0FFF
-			if self.cart.mirror == self.cart.MIRROR_VERTICAL:
-				if addr >= 0x0000 and addr <= 0x03FF:
-					data = self.tblName[0][addr & 0x03FF]
-				if addr >= 0x0400 and addr <= 0x07FF:
-					data = self.tblName[1][addr & 0x03FF]
-				if addr >= 0x0800 and addr <= 0x0BFF:
-					data = self.tblName[0][addr & 0x03FF]
-				if addr >= 0x0C00 and addr <= 0x0FFF:
-					data = self.tblName[1][addr & 0x03FF]
-			elif self.cart.mirror == self.cart.MIRROR_HORIZONTAL:
-				if addr >= 0x0000 and addr <= 0x03FF:
-					data = self.tblName[0][addr & 0x03FF]
-				if addr >= 0x0400 and addr <= 0x07FF:
-					data = self.tblName[0][addr & 0x03FF]
-				if addr >= 0x0800 and addr <= 0x0BFF:
-					data = self.tblName[1][addr & 0x03FF]
-				if addr >= 0x0C00 and addr <= 0x0FFF:
-					data = self.tblName[1][addr & 0x03FF]
-		elif addr >= 0x3F00 and addr <= 0x3FFF:
-			addr &= 0x001F
-			if addr == 0x0010:
-				addr = 0x0000
-			elif addr == 0x0014:
-				addr = 0x0004
-			elif addr == 0x0018:
-				addr = 0x0008
-			elif addr == 0x001C:
-				addr = 0x000C
-			data = self.tblPalette[addr]
-		
-		return data
+		func LoadBackgroundShifters() {
+			bg_shifter_pattern_lo = (bg_shifter_pattern_lo & 0xFF00) | bg_next_tile_lsb
+			bg_shifter_pattern_hi = (bg_shifter_pattern_hi & 0xFF00) | bg_next_tile_msb
 
-	def ppuWrite(self, addr, data):
-		addr &= 0x3FFF
+			bg_shifter_attrib_lo  = (bg_shifter_attrib_lo & 0xFF00) | ((bg_next_tile_attrib & 0b01) > 0 ? 0xFF : 0x00)
+			bg_shifter_attrib_hi  = (bg_shifter_attrib_hi & 0xFF00) | ((bg_next_tile_attrib & 0b10) > 0 ? 0xFF : 0x00)
+		}
 
-		if self.cart.ppuWrite(addr, data):
-			pass
-		elif addr >= 0x0000 and addr <= 0x1FFF:
-			self.tblPattern[(addr & 0x1000) >> 12][addr & 0x0FFF] = data
-		elif addr >= 0x2000 and addr <= 0x3EFF:
-			addr &= 0x0FFF
-			if self.cart.mirror == self.cart.MIRROR_VERTICAL:
-				if addr >= 0x0000 and addr <= 0x03FF:
-					self.tblName[0][addr & 0x03FF] = data
-				if addr >= 0x0400 and addr <= 0x07FF:
-					self.tblName[1][addr & 0x03FF] = data
-				if addr >= 0x0800 and addr <= 0x0BFF:
-					self.tblName[0][addr & 0x03FF] = data
-				if addr >= 0x0C00 and addr <= 0x0FFF:
-					self.tblName[1][addr & 0x03FF] = data
-			elif self.cart.mirror == self.cart.MIRROR_HORIZONTAL:
-				if addr >= 0x0000 and addr <= 0x03FF:
-					self.tblName[0][addr & 0x03FF] = data
-				if addr >= 0x0400 and addr <= 0x07FF:
-					self.tblName[0][addr & 0x03FF] = data
-				if addr >= 0x0800 and addr <= 0x0BFF:
-					self.tblName[1][addr & 0x03FF] = data
-				if addr >= 0x0C00 and addr <= 0x0FFF:
-					self.tblName[1][addr & 0x03FF] = data
-		elif addr >= 0x3F00 and addr <= 0x3FFF:
-			addr &= 0x001F
-			if addr == 0x0010:
-				addr = 0x0000
-			elif addr == 0x0014:
-				addr = 0x0004
-			elif addr == 0x0018:
-				addr = 0x0008
-			elif addr == 0x001C:
-				addr = 0x000C
-			self.tblPalette[addr] = data
 
-	def ConnectCartridge(self, cartridge):
-		self.cart = cartridge
+		func UpdateShifters() {
+			if mask[renderBackground] > 0 {
+				bg_shifter_pattern_lo <<= 1
+				bg_shifter_pattern_hi <<= 1
+				bg_shifter_attrib_lo <<= 1
+				bg_shifter_attrib_hi <<= 1
+			}
+			
+			if mask[renderSprite] > 0 && cycle >= 1 && cycle < 258 {
+				for i in 0 ..< sprite_count {
+					if spriteScanline[i*4 + 3] > 0 {
+						spriteScanline[i*4 + 3] -= 1
+					} else {
+						sprite_shifter_pattern_lo[i] <<= 1
+						sprite_shifter_pattern_hi[i] <<= 1
+					}
+				}
+			}
+		}
 
-	def IncrementScrollX(self):
-		if self.mask & self.MASK_RENDER_BKGD > 0 or self.mask & self.MASK_RENDER_SPR > 0:
-			if self.vram_addr_coarse_x == 31:
-				self.vram_addr &= ~self.LOOPY_COARSE_X
-				if self.vram_addr_nametbl_x:
-					self.vram_addr &= ~self.LOOPY_NAMETBL_X
-				else:
-					self.vram_addr |= self.LOOPY_NAMETBL_X
-			else:
-				c = self.vram_addr_coarse_x + 1
-				self.vram_addr = (self.vram_addr & ~self.LOOPY_COARSE_X) | c
-
-	def IncrementScrollY(self):
-		if self.mask & self.MASK_RENDER_BKGD > 0 or self.mask & self.MASK_RENDER_SPR > 0:
-			if self.vram_addr_fine_y < 7:
-				c = self.vram_addr_fine_y + 1
-				self.vram_addr = (self.vram_addr & ~self.LOOPY_FINE_Y) | (c << 12)
-			else:
-				self.vram_addr &= ~self.LOOPY_FINE_Y
-
-				if self.vram_addr_coarse_y == 29:
-					self.vram_addr &= ~self.LOOPY_COARSE_Y
-					if self.vram_addr_nametbl_x:
-						self.vram_addr &= ~self.LOOPY_NAMETBL_X
-					else:
-						self.vram_addr |= self.LOOPY_NAMETBL_X
-				elif self.vram_addr_coarse_y == 31:
-					self.vram_addr &= ~self.LOOPY_COARSE_Y
-				else:
-					c = self.vram_addr_coarse_y + 1
-					self.vram_addr = (self.vram_addr & ~self.LOOPY_COARSE_Y) | (c << 5)
-
-	def TransferAddressX(self):
-		if self.mask & self.MASK_RENDER_BKGD > 0 or self.mask & self.MASK_RENDER_SPR > 0:
-			self.vram_addr = (self.vram_addr & ~self.LOOPY_NAMETBL_X) | (self.tram_addr & self.LOOPY_NAMETBL_X)
-			self.vram_addr = (self.vram_addr & ~self.LOOPY_COARSE_X)  | (self.tram_addr & self.LOOPY_COARSE_X)
-
-	def TransferAddressY(self):
-		if self.mask & self.MASK_RENDER_BKGD > 0 or self.mask & self.MASK_RENDER_SPR > 0:
-			self.vram_addr = (self.vram_addr & ~self.LOOPY_FINE_Y) | (self.tram_addr & self.LOOPY_FINE_Y)
-			self.vram_addr = (self.vram_addr & ~self.LOOPY_NAMETBL_Y) | (self.tram_addr & self.LOOPY_NAMETBL_Y)
-			self.vram_addr = (self.vram_addr & ~self.LOOPY_COARSE_Y)  | (self.tram_addr & self.LOOPY_COARSE_Y)
-
-	def LoadBackgroundShifters(self):
-		self.bg_shifter_pattern_lo = (self.bg_shifter_pattern_lo & 0xFF00) | self.bg_next_tile_lsb
-		self.bg_shifter_pattern_hi = (self.bg_shifter_pattern_hi & 0xFF00) | self.bg_next_tile_msb
-		self.bg_shifter_attrib_lo = (self.bg_shifter_attrib_lo & 0xFF00) | (0xFF if (self.bg_next_tile_attrib & 0x01) > 0 else 0x00)
-		self.bg_shifter_attrib_hi = (self.bg_shifter_attrib_hi & 0xFF00) | (0xFF if (self.bg_next_tile_attrib & 0x02) > 0 else 0x00)
-
-	def UpdateShifters(self):
-		if self.mask & self.MASK_RENDER_BKGD:
-			self.bg_shifter_pattern_lo <<= 1
-			self.bg_shifter_pattern_hi <<= 1
-			self.bg_shifter_attrib_lo <<= 1
-			self.bg_shifter_attrib_hi <<= 1
-		
-
-	def clock(self):
-		if self.scanline >= -1 and self.scanline < 240:
-			if self.scanline == -1 and self.cycle == 1:
-				self.status &= ~self.STATUS_VERTBLANK
-			if (self.cycle >=2 and self.cycle < 258) or (self.cycle >= 321 and self.cycle < 338):
-				self.UpdateShifters()
-				cycle = (self.cycle - 1) % 8
-				if cycle == 0:
-					self.LoadBackgroundShifters()
-					self.bg_next_tile_id = self.ppuRead(0x2000 | (self.vram_addr & 0x0FFF))
-				elif cycle == 2:
-					self.bg_next_tile_attrib = self.ppuRead(0x23C0 | (self.vram_addr_nametbl_y << 11)
-						| (self.vram_addr_nametbl_x << 10)
-						| ((self.vram_addr_coarse_y >> 2) << 3)
-						| (self.vram_addr_coarse_x >> 2))
-					if self.vram_addr_coarse_y & 0x02 > 0:
-						self.bg_next_tile_attrib >>= 4
-					if self.vram_addr_coarse_x & 0x02 > 0:
-						self.bg_next_tile_attrib >>= 2
-					self.bg_next_tile_attrib &= 0x03
-				elif cycle == 4:
-					self.bg_next_tile_lsb = self.ppuRead((1 << 12 if (self.control & self.CONTROL_PATT_BKGD > 0) else 0)
-						+ (self.bg_next_tile_id << 4)
-						+ (self.vram_addr_fine_y))
-				elif cycle == 6:
-					self.bg_next_tile_msb = self.ppuRead((1 << 12 if (self.control & self.CONTROL_PATT_BKGD > 0) else 0)
-						+ (self.bg_next_tile_id << 4)
-						+ (self.vram_addr_fine_y) + 8)
-				elif cycle == 7:
-					self.IncrementScrollX()
+		if scanline >= -1 && scanline < 240 {
+			if scanline == 0 && cycle == 0 {
+				cycle = 1
+			}
+			if scanline == -1 && cycle == 1 {
+				status[verticalBlank] = 0
+				
+				status[spriteOverflow] = 0
+				
+				for i in 0 ..< 8 {
+					sprite_shifter_pattern_lo[i] = 0
+					sprite_shifter_pattern_hi[i] = 0
+				}
+			}
+			if (cycle >= 2 && cycle < 258) || (cycle >= 321 && cycle < 338) {
+				UpdateShifters()
+				switch (cycle - 1) % 8 {
+				case 0:
+					LoadBackgroundShifters()
+					bg_next_tile_id = ppuRead(addr: 0x2000 | (vram_addr & 0x0FFF))
+				case 2:
+					bg_next_tile_attrib = ppuRead(addr: 0x23C0 | (vram_addr[loopyNameTableY] << 11)
+															   | (vram_addr[loopyNameTableX] << 10)
+															   | ((vram_addr[loopyCoarseY] >> 2) << 3)
+															   | (vram_addr[loopyCoarseX] >> 2))
+					if vram_addr[loopyCoarseY] & 0x02 > 0 {
+						bg_next_tile_attrib >>= 4
+					}
+					if vram_addr[loopyCoarseX] & 0x02 > 0 {
+						bg_next_tile_attrib >>= 2
+					}
+					bg_next_tile_attrib &= 0x03
+				case 4:
+					bg_next_tile_lsb = ppuRead(addr: (control[patternBackground] << 12)
+													| (bg_next_tile_id << 4)
+													| vram_addr[loopyFineY])
+				case 6:
+					bg_next_tile_msb = ppuRead(addr: (control[patternBackground] << 12)
+													| (bg_next_tile_id << 4)
+													| vram_addr[loopyFineY] + 8)
+				case 7:
+					IncrementScrollX()
+				default:
+					break
+				}
+			}
 					
-			if self.cycle == 256:
-				self.IncrementScrollY()
+			if cycle == 256 {
+				IncrementScrollY()
+			}
 
-			if self.cycle == 257:
-				self.TransferAddressX()
+			if cycle == 257 {
+				LoadBackgroundShifters()
+				TransferAddressX()
+			}
+			
+			if cycle == 338 || cycle == 340 {
+				bg_next_tile_id = ppuRead(addr: 0x2000 | (vram_addr & 0x0FFF))
+			}
 
-			if self.scanline == -1 and self.cycle >= 280 and self.cycle <= 305:
-				self.TransferAddressY()
+			if scanline == -1 && cycle >= 280 && cycle < 305 {
+				TransferAddressY()
+			}
+			
+			
+			// ********************
+			// Foreground Rendering
+			// ********************
+			
+			if cycle == 257 && scanline >= 0 {
+				spriteScanline = Array(repeating: 0xFF, count: 8*4)
+				sprite_count = 0
+				var nOAMEntry = 0
+				while (nOAMEntry < 64 && sprite_count < 9) {
+					let diff = scanline - OAM[nOAMEntry * 4 + 0]
+					if diff >= 0 && diff < (control[spriteSize] > 0 ? 16 : 8) {
+						if sprite_count < 8 {
+							for i in 0 ..< 4 {
+								spriteScanline[sprite_count * 4 + i] = OAM[nOAMEntry * 4 + i]
+							}
+							sprite_count += 1
+						}
+					}
+					nOAMEntry += 1
+				}
+				status[spriteOverflow] = (sprite_count > 8) ? 1 : 0
+				if sprite_count == 9 {
+					sprite_count = 8
+				}
+			}
+			
+			if cycle == 340 {
+				var sprite_pattern_bits_lo = 0
+				var sprite_pattern_bits_hi = 0
+				var sprite_pattern_addr_lo = 0
+				var sprite_pattern_addr_hi = 0
+				//	var oamY         = 0xFF000000
+				//	var oamID        = 0x00FF0000
+				//	var oamAttribute = 0x0000FF00
+				//	var oamX         = 0x000000FF
 
-		if self.scanline == 240:
-			pass
+				for i in 0 ..< sprite_count {
+					if control[spriteSize] == 0 {
+						// 8x8
+						if spriteScanline[i*4 + 2] & 0x80 == 0 {
+							// not flipped
+							sprite_pattern_addr_lo =
+								(control[patternSprite] << 12)
+								| (spriteScanline[i*4 + 1] << 4)
+								| (scanline - spriteScanline[i*4 + 0])
+							
+						} else {
+							// flipped
+							sprite_pattern_addr_lo =
+								(control[patternSprite] << 12)
+								| (spriteScanline[i*4 + 1] << 4)
+								| (7 - (scanline - spriteScanline[i*4 + 0]))
+						}
+					} else {
+						// 8x16
+						if spriteScanline[i*4 + 2] & 0x80 == 0 {
+							// not flipped
+							if scanline - spriteScanline[i*4 + 0] < 8 {
+								// top half
+								sprite_pattern_addr_lo =
+									((spriteScanline[i*4 + 1] & 0x01) << 12)
+									| ((spriteScanline[i*4 + 1] & 0xFE) << 4)
+									| ((scanline - spriteScanline[i*4 + 0]) & 0x07)
+							} else {
+								// bottom half
+								sprite_pattern_addr_lo =
+									((spriteScanline[i*4 + 1] & 0x01) << 12)
+									| (((spriteScanline[i*4 + 1] & 0xFE) + 1) << 4)
+									| ((scanline - spriteScanline[i*4 + 0]) & 0x07)
+							}
+						} else {
+							// flipped
+							if scanline - spriteScanline[i*4 + 0] < 8 {
+								// top half
+								sprite_pattern_addr_lo =
+									((spriteScanline[i*4 + 1] & 0x01) << 12)
+									| (((spriteScanline[i*4 + 1] & 0xFE) + 1) << 4)
+									| (7 - (scanline - spriteScanline[i*4 + 0]) & 0x07)
+							} else {
+								// bottom half
+								sprite_pattern_addr_lo =
+									((spriteScanline[i*4 + 1] & 0x01) << 12)
+									| ((spriteScanline[i*4 + 1] & 0xFE) << 4)
+									| (7 - (scanline - spriteScanline[i*4 + 0]) & 0x07)
+							}
+						}
+					}
+					sprite_pattern_addr_hi = sprite_pattern_addr_lo + 8
+					sprite_pattern_bits_lo = ppuRead(addr: sprite_pattern_addr_lo)
+					sprite_pattern_bits_hi = ppuRead(addr: sprite_pattern_addr_hi)
+					
+					if spriteScanline[i*4 + 2] & 0x40 > 0 {
+						func flipByte(_ n: Int) -> Int {
+							var b = n
+							b = (b & 0xF0) >> 4 | (b & 0x0F) << 4
+							b = (b & 0xCC) >> 2 | (b & 0x33) << 2
+							b = (b & 0xAA) >> 1 | (b & 0x55) << 1
+							return b
+						}
+						
+						sprite_pattern_bits_lo = flipByte(sprite_pattern_bits_lo)
+						sprite_pattern_bits_hi = flipByte(sprite_pattern_bits_hi)
+					}
+					
+					sprite_shifter_pattern_lo[i] = sprite_pattern_bits_lo
+					sprite_shifter_pattern_hi[i] = sprite_pattern_bits_hi
+				}
+			}
+		}
+
+		if scanline == 240 {
+		}
 		
-		if self.scanline == 241 and self.cycle == 1:
-			# print("Setting vertblank")
-			self.status |= self.STATUS_VERTBLANK
-			if self.control & self.CONTROL_ENABLE_NMI > 0:
-				self.nmi = True
+		if scanline >= 241 && scanline < 261 {
+			if scanline == 241 && cycle == 1 {
+				status[verticalBlank] = 1
+				if control[enableNMI] > 0 {
+					nmi = true
+				}
+			}
+		}
 
-		bg_pixel = 0x00
-		bg_palette = 0x00
+		var bg_pixel = 0x00
+		var bg_palette = 0x00
 
-		if self.mask & self.MASK_RENDER_BKGD:
-			bit_mux = 0x8000 >> self.fine_x
+		if mask[renderBackground] > 0 {
+			let bit_mux = 0x8000 >> fine_x
 
-			p0_pixel = 1 if (self.bg_shifter_pattern_lo & bit_mux) > 0 else 0
-			p1_pixel = 1 if (self.bg_shifter_pattern_hi & bit_mux) > 0 else 0
+			let p0_pixel = (bg_shifter_pattern_lo & bit_mux) > 0 ? 1 : 0
+			let p1_pixel = (bg_shifter_pattern_hi & bit_mux) > 0 ? 1 : 0
 			bg_pixel = (p1_pixel << 1) | p0_pixel
 
-			bg_pal0 = 1 if (self.bg_shifter_attrib_lo & bit_mux) > 0 else 0
-			bg_pal1 = 1 if (self.bg_shifter_attrib_hi & bit_mux) > 0 else 0
+			let bg_pal0 = (bg_shifter_attrib_lo & bit_mux) > 0 ? 1 : 0
+			let bg_pal1 = (bg_shifter_attrib_hi & bit_mux) > 0 ? 1 : 0
 			bg_palette = (bg_pal1 << 1) | bg_pal0
+		}
+		
+		var fg_pixel = 0x00
+		var fg_palette = 0x00
+		var fg_priority = 0x00
+		
+		if mask[renderSprite] > 0 {
+			for i in 0 ..< sprite_count {
+				if spriteScanline[i*4 + 3] == 0 {
+					let fg_pixel_lo = (sprite_shifter_pattern_lo[i] & 0x80) > 0 ? 1 : 0
+					let fg_pixel_hi = (sprite_shifter_pattern_hi[i] & 0x80) > 0 ? 1 : 0
+					fg_pixel = (fg_pixel_hi << 1) | fg_pixel_lo
+					
+					fg_palette = (spriteScanline[i*4 + 2] & 0x03) + 0x04
+					fg_priority = (spriteScanline[i*4 + 2] & 0x20) == 0 ? 1 : 0
+					
+					if fg_pixel != 0 {
+						break
+					}
+				}
+			}
+		}
+		
+		var pixel = 0
+		var palette = 0
+		
+		if bg_pixel == 0 && fg_pixel == 0 {
+			pixel = 0
+			palette = 0
+		} else if bg_pixel == 0 && fg_pixel > 0 {
+			pixel = fg_pixel
+			palette = fg_palette
+		} else if bg_pixel > 0 && fg_pixel == 0 {
+			pixel = bg_pixel
+			palette = bg_palette
+		} else {
+			if fg_priority > 0 {
+				pixel = fg_pixel
+				palette = fg_palette
+			} else {
+				pixel = bg_pixel
+				palette = bg_palette
+			}
+		}
 
-		self.sprScreen.set_at((self.cycle - 1, self.scanline), self.GetColorFromPaletteRam(bg_palette, bg_pixel))
-		self.cycle += 1
-		if self.cycle >= 341:
-			self.cycle = 0
-			self.scanline += 1
-			if self.scanline >= 261:
-				self.scanline = -1
-				self.frame_complete = True
-
-	*/
+		let color = GetColorFromPaletteRam(palette: palette, pixel: pixel)
+		sprScreen[cycle - 1, scanline] = color
+		
+		cycle += 1
+		if cycle >= 341 {
+			cycle = 0
+			scanline += 1
+			if scanline >= 261 {
+				scanline = -1
+				frame_complete = true
+			}
+		}
+	}
 }

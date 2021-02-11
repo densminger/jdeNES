@@ -26,23 +26,23 @@ class Sprite {
 	}
 	
 	private func calculateOffset(_ x: Int, _ y: Int) -> Int {
-		x + y * Int(GameEngine.screenSize.width)
+		x + y * Int(width)
 	}
 	
 	subscript(x: Int, y: Int) -> UInt32 {
 		get {
-			precondition(x < width)
-			precondition(y < height)
-
 			let offset = calculateOffset(x, y)
+			if offset < 0 || offset >= pixelCount {
+				return 0
+			}
 
 			return pixels[offset]
 		}
 		set(pixel) {
-			precondition(x < width)
-			precondition(y < height)
-
 			let offset = calculateOffset(x, y)
+			if offset < 0 || offset >= pixelCount {
+				return
+			}
 
 			pixels[offset] = pixel
 		}

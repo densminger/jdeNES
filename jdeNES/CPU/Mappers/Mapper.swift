@@ -6,27 +6,27 @@
 //
 
 class Mapper {
-	let prgBanks: UInt8
-	let chrBanks: UInt8
+	let prgBanks: Int
+	let chrBanks: Int
 
-	init(prgBanks: UInt8, chrBanks: UInt8) {
+	init(prgBanks: Int, chrBanks: Int) {
 		self.prgBanks = prgBanks
 		self.chrBanks = chrBanks
 	}
 
-	func cpuMapRead(addr: UInt16) -> UInt16? {
+	func cpuMapRead(addr: Int) -> Int? {
 		return nil
 	}
 	
-	func cpuMapWrite(addr: UInt16) -> UInt16? {
+	func cpuMapWrite(addr: Int) -> Int? {
 		return nil
 	}
 	
-	func ppuMapRead(addr: UInt16) -> UInt16? {
+	func ppuMapRead(addr: Int) -> Int? {
 		return nil
 	}
 	
-	func ppuMapWrite(addr: UInt16) -> UInt16? {
+	func ppuMapWrite(addr: Int) -> Int? {
 		return nil
 	}
 }

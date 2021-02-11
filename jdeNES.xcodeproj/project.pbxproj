@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		631BE0A425D474DC00A495FF /* Instruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631BE0A325D474DC00A495FF /* Instruction.swift */; };
+		631BE0A925D47C1700A495FF /* Nes6502+Opcodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631BE0A825D47C1700A495FF /* Nes6502+Opcodes.swift */; };
+		631BE0AE25D47C2800A495FF /* Nes6502+AddressingModes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631BE0AD25D47C2800A495FF /* Nes6502+AddressingModes.swift */; };
 		637C70FC25D31F6D00AB8D29 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C70FB25D31F6D00AB8D29 /* AppDelegate.swift */; };
 		637C70FE25D31F6E00AB8D29 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 637C70FD25D31F6E00AB8D29 /* Assets.xcassets */; };
 		637C710125D31F6E00AB8D29 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 637C70FF25D31F6E00AB8D29 /* MainMenu.xib */; };
@@ -20,7 +23,7 @@
 		637C714C25D347F000AB8D29 /* Cartridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C714B25D347F000AB8D29 /* Cartridge.swift */; };
 		637C715925D377FF00AB8D29 /* Mapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C715825D377FF00AB8D29 /* Mapper.swift */; };
 		637C715F25D3781900AB8D29 /* Mapper000.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C715E25D3781900AB8D29 /* Mapper000.swift */; };
-		637C716425D3AE5300AB8D29 /* UInt+Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C716325D3AE5300AB8D29 /* UInt+Bits.swift */; };
+		637C716425D3AE5300AB8D29 /* Int+Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C716325D3AE5300AB8D29 /* Int+Bits.swift */; };
 		637C717125D41CF600AB8D29 /* CartridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C717025D41CF600AB8D29 /* CartridgeTests.swift */; };
 		637C717625D41D1F00AB8D29 /* Nes2C02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C717525D41D1F00AB8D29 /* Nes2C02Tests.swift */; };
 /* End PBXBuildFile section */
@@ -43,6 +46,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		631BE0A325D474DC00A495FF /* Instruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instruction.swift; sourceTree = "<group>"; };
+		631BE0A825D47C1700A495FF /* Nes6502+Opcodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Nes6502+Opcodes.swift"; sourceTree = "<group>"; };
+		631BE0AD25D47C2800A495FF /* Nes6502+AddressingModes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Nes6502+AddressingModes.swift"; sourceTree = "<group>"; };
 		637C70F825D31F6D00AB8D29 /* jdeNES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jdeNES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		637C70FB25D31F6D00AB8D29 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		637C70FD25D31F6E00AB8D29 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -63,7 +69,7 @@
 		637C714B25D347F000AB8D29 /* Cartridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cartridge.swift; sourceTree = "<group>"; };
 		637C715825D377FF00AB8D29 /* Mapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper.swift; sourceTree = "<group>"; };
 		637C715E25D3781900AB8D29 /* Mapper000.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mapper000.swift; sourceTree = "<group>"; };
-		637C716325D3AE5300AB8D29 /* UInt+Bits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt+Bits.swift"; sourceTree = "<group>"; };
+		637C716325D3AE5300AB8D29 /* Int+Bits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Bits.swift"; sourceTree = "<group>"; };
 		637C717025D41CF600AB8D29 /* CartridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartridgeTests.swift; sourceTree = "<group>"; };
 		637C717525D41D1F00AB8D29 /* Nes2C02Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nes2C02Tests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -162,9 +168,12 @@
 				637C715D25D3780500AB8D29 /* Mappers */,
 				637C713925D345E900AB8D29 /* Bus.swift */,
 				637C714125D3460000AB8D29 /* Nes6502.swift */,
+				631BE0AD25D47C2800A495FF /* Nes6502+AddressingModes.swift */,
+				631BE0A825D47C1700A495FF /* Nes6502+Opcodes.swift */,
 				637C714625D3472400AB8D29 /* Nes2C02.swift */,
 				637C714B25D347F000AB8D29 /* Cartridge.swift */,
-				637C716325D3AE5300AB8D29 /* UInt+Bits.swift */,
+				637C716325D3AE5300AB8D29 /* Int+Bits.swift */,
+				631BE0A325D474DC00A495FF /* Instruction.swift */,
 			);
 			path = CPU;
 			sourceTree = "<group>";
@@ -310,9 +319,12 @@
 				637C713025D338BB00AB8D29 /* Sprite.swift in Sources */,
 				637C715F25D3781900AB8D29 /* Mapper000.swift in Sources */,
 				637C70FC25D31F6D00AB8D29 /* AppDelegate.swift in Sources */,
-				637C716425D3AE5300AB8D29 /* UInt+Bits.swift in Sources */,
+				637C716425D3AE5300AB8D29 /* Int+Bits.swift in Sources */,
+				631BE0A925D47C1700A495FF /* Nes6502+Opcodes.swift in Sources */,
 				637C713A25D345E900AB8D29 /* Bus.swift in Sources */,
 				637C714725D3472400AB8D29 /* Nes2C02.swift in Sources */,
+				631BE0A425D474DC00A495FF /* Instruction.swift in Sources */,
+				631BE0AE25D47C2800A495FF /* Nes6502+AddressingModes.swift in Sources */,
 				637C715925D377FF00AB8D29 /* Mapper.swift in Sources */,
 				637C714C25D347F000AB8D29 /* Cartridge.swift in Sources */,
 				637C712B25D3241E00AB8D29 /* GameEngine.swift in Sources */,

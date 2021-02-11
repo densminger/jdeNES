@@ -6,28 +6,28 @@
 //
 
 class Mapper000: Mapper {
-	override func cpuMapRead(addr: UInt16) -> UInt16? {
+	override func cpuMapRead(addr: Int) -> Int? {
 		if addr >= 0x8000 && addr <= 0xFFFF {
 			return addr & (prgBanks > 1 ? 0x7FFF : 0x3FFF)
 		}
 		return nil
 	}
 
-	override func cpuMapWrite(addr: UInt16) -> UInt16? {
+	override func cpuMapWrite(addr: Int) -> Int? {
 		if addr >= 0x8000 && addr <= 0xFFFF {
 			return addr & (prgBanks > 1 ? 0x7FFF : 0x3FFF)
 		}
 		return nil
 	}
 
-	override func ppuMapRead(addr: UInt16) -> UInt16? {
+	override func ppuMapRead(addr: Int) -> Int? {
 		if addr >= 0x0000 && addr <= 0x1FFF {
 			return addr
 		}
 		return nil
 	}
 
-	override func ppuMapWrite(addr: UInt16) -> UInt16? {
+	override func ppuMapWrite(addr: Int) -> Int? {
 		if addr >= 0x0000 && addr <= 0x1FFF {
 			if chrBanks == 0 {
 				return addr
