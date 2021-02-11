@@ -55,6 +55,8 @@ class Nes2C02 {
 	private var sprite_count = 0
 	private var sprite_shifter_pattern_lo = Array(repeating: 0, count: 8)
 	private var sprite_shifter_pattern_hi = Array(repeating: 0, count: 8)
+	private var spriteZeroHitPossible = false
+	private var spriteZeroBeingRendered = false
 
 	var address_latch = false
 	var ppu_data_buffer = 0x00
@@ -428,7 +430,7 @@ class Nes2C02 {
 			}
 			if scanline == -1 && cycle == 1 {
 				status[verticalBlank] = 0
-				
+				status[spriteZero] = 0
 				status[spriteOverflow] = 0
 				
 				for i in 0 ..< 8 {
@@ -495,10 +497,14 @@ class Nes2C02 {
 				spriteScanline = Array(repeating: 0xFF, count: 8*4)
 				sprite_count = 0
 				var nOAMEntry = 0
+				spriteZeroHitPossible = false
 				while (nOAMEntry < 64 && sprite_count < 9) {
 					let diff = scanline - OAM[nOAMEntry * 4 + 0]
 					if diff >= 0 && diff < (control[spriteSize] > 0 ? 16 : 8) {
 						if sprite_count < 8 {
+							if nOAMEntry == 0 {
+								spriteZeroHitPossible = true
+							}
 							for i in 0 ..< 4 {
 								spriteScanline[sprite_count * 4 + i] = OAM[nOAMEntry * 4 + i]
 							}
@@ -629,6 +635,7 @@ class Nes2C02 {
 		var fg_priority = 0x00
 		
 		if mask[renderSprite] > 0 {
+			spriteZeroBeingRendered = false
 			for i in 0 ..< sprite_count {
 				if spriteScanline[i*4 + 3] == 0 {
 					let fg_pixel_lo = (sprite_shifter_pattern_lo[i] & 0x80) > 0 ? 1 : 0
@@ -639,6 +646,9 @@ class Nes2C02 {
 					fg_priority = (spriteScanline[i*4 + 2] & 0x20) == 0 ? 1 : 0
 					
 					if fg_pixel != 0 {
+						if i == 0 {
+							spriteZeroBeingRendered = true
+						}
 						break
 					}
 				}
@@ -664,6 +674,20 @@ class Nes2C02 {
 			} else {
 				pixel = bg_pixel
 				palette = bg_palette
+			}
+			
+			if spriteZeroHitPossible && spriteZeroBeingRendered {
+				if mask[renderBackground] > 0 && mask[renderSprite] > 0 {
+					if !(mask[renderBackgroundLeft] > 0 || mask[renderSpriteLeft] > 0) {
+						if cycle >= 9 && cycle < 258 {
+							status[spriteZero] = 1
+						}
+					} else {
+						if cycle >= 1 && cycle < 258 {
+							status[spriteZero] = 1
+						}
+					}
+				}
 			}
 		}
 
